@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-ID">
+<head>
+    <base name="home" url="localhost/eunoiaverse">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eunoiaverse - Platform</title>
+    <link rel="favicon" type="images/png" href="assets/img/icons/favicon-16x16.png">
+    <link rel="script" type="text/js" href="eunoiaverse/assets/scripts/*.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = "login.html";
+        }
+    </script>
+
+</head>
+<style>
+    :neumorphic-base {
+    background-attachment:url="assets/styles/neumorphic.css";
+    }
+    </style>
+
+<body class="min-h-screen flex flex-col items-center">
+
+    <header class="w-full max-w-lg p-6 flex justify-between items-center z-30">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl neu-flat flex items-center justify-center">
+                <img src="assets//img/logos/eunoiaverse-logo-36x36.png" alt="Logo" class="w-6 h-6 rounded-md">
+            </div>
+            <h1 class="text-xl font-black tracking-tight">Eunoiaverse</h1>
+        </div>
+        <button class="w-10 h-10 rounded-full neu-flat flex items-center justify-center text-gray-400 neu-button">
+            <i class="fas fa-bell"></i>
+        </button>
+    </header>
+
+    <main id="app-pages-container" class="w-full max-w-lg flex-grow px-4 pb-32">
+        
+        <section id="home-page" class="space-y-8">
+            <div class="flex space-x-4 overflow-x-auto py-4 custom-scrollbar">
+                <div class="flex-none flex flex-col items-center space-y-2">
+                    <div class="w-16 h-16 rounded-full neu-flat flex items-center justify-center border-2 border-dashed border-gray-600 cursor-pointer neu-button">
+                        <i class="fas fa-plus text-gray-500"></i>
+                    </div>
+                    <span class="text-xs text-gray-500">Your Story</span>
+                </div>
+                <div class="flex-none w-16 h-16 rounded-full p-1 border-2 border-blue-500 neu-flat">
+                    <img src="https://placehold.co/60" class="rounded-full w-full h-full object-cover">
+                </div>
+                <div class="flex-none w-16 h-16 rounded-full p-1 border-2 border-orange-500 neu-flat">
+                    <img src="https://placehold.co/60" class="rounded-full w-full h-full object-cover">
+                </div>
+            </div>
+
+            <div class="p-5 rounded-3xl neu-flat space-y-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-500"></div>
+                    <span class="font-bold text-sm">Edo Erpani</span>
+                </div>
+                <div class="neu-inset rounded-2xl p-4">
+                    <textarea class="bg-transparent w-full outline-none text-sm text-gray-300" rows="3" placeholder="Share your thoughts..."></textarea>
+                </div>
+                <div class="flex justify-between items-center">
+                    <button class="text-gray-400 text-lg ml-2"><i class="fas fa-image"></i></button>
+                    <button class="px-6 py-2 bg-blue-600 rounded-full text-sm font-bold shadow-lg neu-button">Post</button>
+                </div>
+            </div>
+
+            <div class="p-6 rounded-3xl neu-flat h-48 flex flex-col justify-end">
+                <h3 class="font-bold text-lg">Latest Updates</h3>
+                <p class="text-gray-500 text-sm">Follow trends in Kutai Barat.</p>
+            </div>
+        </section>
+
+        <section id="explore-page" class="hidden space-y-6">
+            <div class="neu-inset flex items-center p-4 rounded-2xl">
+                <i data-lucide="search" class="w-5 h-5 text-gray-500 mr-3"></i>
+                <input type="text" placeholder="Search Kubar..." class="bg-transparent outline-none w-full text-sm">
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+                <div class="h-64 rounded-3xl neu-flat flex items-center justify-center text-gray-600">Travel</div>
+                <div class="h-48 rounded-3xl neu-flat flex items-center justify-center text-gray-600">Culture</div>
+                <div class="h-48 rounded-3xl neu-flat flex items-center justify-center text-gray-600">Nature</div>
+                <div class="h-64 rounded-3xl neu-flat flex items-center justify-center text-gray-600">Food</div>
+            </div>
+        </section>
+
+        <section id="shop-page" class="hidden flex flex-col items-center justify-center h-96 text-center">
+            <div class="w-20 h-20 rounded-full neu-flat flex items-center justify-center mb-6">
+                <i data-lucide="shopping-bag" class="text-teal-400 w-10 h-10"></i>
+            </div>
+            <h2 class="text-2xl font-bold">Kubar Marketplace</h2>
+            <p class="text-gray-500">Authentic crafts coming soon.</p>
+        </section>
+
+        <section id="wallet-page" class="hidden space-y-6">
+            <div class="p-8 rounded-[2rem] neu-flat text-center">
+                <span class="text-gray-500 text-sm">Total Balance</span>
+                <h2 class="text-4xl font-black mt-2">Rp 1.250.000</h2>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+                <button class="p-4 rounded-2xl neu-flat flex flex-col items-center space-y-2 neu-button">
+                    <i data-lucide="arrow-up-right" class="text-green-500"></i>
+                    <span class="text-xs">Send</span>
+                </button>
+                <button class="p-4 rounded-2xl neu-flat flex flex-col items-center space-y-2 neu-button">
+                    <i data-lucide="plus" class="text-blue-500"></i>
+                    <span class="text-xs">Top Up</span>
+                </button>
+                <button class="p-4 rounded-2xl neu-flat flex flex-col items-center space-y-2 neu-button">
+                    <i data-lucide="history" class="text-yellow-500"></i>
+                    <span class="text-xs">History</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="profile-page" class="hidden space-y-8">
+            <div class="flex flex-col items-center pt-4">
+                <div class="w-32 h-32 rounded-full p-2 neu-flat mb-4">
+                    <img src="https://placehold.co/128" class="rounded-full w-full h-full object-cover">
+                </div>
+                <h2 class="text-2xl font-bold">Edo Erpani</h2>
+                <p class="text-gray-500">Sendawar, Kutai Barat</p>
+                
+                <button class="mt-6 px-8 py-3 rounded-full neu-flat font-bold text-sm neu-button">
+                    Edit Profile
+                </button>
+            </div>
+
+            <div class="p-6 rounded-3xl neu-flat">
+                <div class="flex items-center space-x-4 mb-4">
+                    <i data-lucide="music" class="text-purple-500"></i>
+                    <span class="text-sm font-medium">Now Playing: Hanyeq Kubar</span>
+                </div>
+                <div id="spectrum-bars" class="flex items-end justify-center space-x-1.5 h-16">
+                    </div>
+                    <button onclick="logout()" style="padding: 10px; cursor: pointer;">Logout</button>
+                    <script>
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            window.location.href = "login.html";
+        }
+    </script>
+            </div>
+        </section>
+    </main>
+
+    <nav class="fixed bottom-0 w-full max-w-lg bg-[#171717] px-6 py-4 rounded-t-[2.5rem] shadow-[0px_-10px_20px_#0a0a0a] flex justify-between items-center z-50">
+        <button onclick="showPage('explore-page')" class="nav-btn p-3 text-gray-500 hover:text-white"><i data-lucide="compass"></i></button>
+        <button onclick="showPage('shop-page')" class="nav-btn p-3 text-gray-500 hover:text-white"><i data-lucide="shopping-bag"></i></button>
+        
+        <button onclick="showPage('home-page')" class="w-14 h-14 rounded-full bg-white flex items-center justify-center -mt-12 shadow-xl neu-button">
+            <i data-lucide="plus" class="text-black stroke-[3]"></i>
+        </button>
+        
+        <button onclick="showPage('wallet-page')" class="nav-btn p-3 text-gray-500 hover:text-white"><i data-lucide="wallet"></i></button>
+        <button onclick="showPage('profile-page')" class="nav-btn p-3 text-gray-500 hover:text-white"><i data-lucide="user"></i></button>
+    </nav>
+
+    <script>
+        lucide.createIcons();
+
+        function showPage(pageId) {
+            // Hide all sections
+            const pages = ['home-page', 'explore-page', 'shop-page', 'wallet-page', 'profile-page'];
+            pages.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+
+            // Show current
+            const activePage = document.getElementById(pageId);
+            activePage.classList.remove('hidden');
+
+            // Trigger Spectrum if profile
+            if(pageId === 'profile-page') startSpectrum();
+        }
+
+        function startSpectrum() {
+            const container = document.getElementById('spectrum-bars');
+            container.innerHTML = '';
+            for(let i=0; i<15; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'w-2 bg-purple-500 rounded-full animate-spectrum';
+                bar.style.height = Math.random() * 100 + '%';
+                bar.style.animationDelay = (i * 0.1) + 's';
+                container.appendChild(bar);
+            }
+        }
+    </script>
+</body>
+</html>
