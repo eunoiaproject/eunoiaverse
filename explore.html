@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en-ID">
+
+<head>
+    <base name="explore" url="localhost/eunoiaverse">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kutai Barat Explorer - Tour Guide</title>
+    <link rel="favicon" type="images/png" href="assets/img/icons/favicon-16x16.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/explore.css">
+    <style>
+        .destination-card {
+            transition: all 0.3s ease;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .budget-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .amenity-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin: 2px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+    <script>
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = "login.html";
+        }
+    </script>
+</head>
+
+<body class="min-h-screen flex flex-col items-center bg-gray-50">
+
+    <!-- Header -->
+    <header class="w-full max-w-lg p-6 flex justify-between items-center z-30 bg-white border-b">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl neu-flat flex items-center justify-center">
+                <i class="fas fa-map text-purple-600"></i>
+            </div>
+            <h1 class="text-xl font-black tracking-tight">Explore</h1>
+        </div>
+        <button
+            class="w-10 h-10 rounded-full neu-flat flex items-center justify-center text-gray-400 hover:text-gray-600">
+            <i class="fas fa-bell"></i>
+        </button>
+    </header>
+
+    <main id="app-pages-container" class="w-full max-w-lg flex-grow px-4 pb-32">
+
+        <!-- Search Bar -->
+        <div class="mt-6 mb-6">
+            <div class="relative">
+                <input type="text" id="searchInput" placeholder="Search destinations..."
+                    class="w-full px-4 py-3 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white">
+                <i class="fas fa-search absolute right-4 top-3.5 text-gray-400"></i>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tabs sticky top-0 bg-white z-20 -mx-4 px-4 py-4 mb-6">
+            <button class="tab-btn active" onclick="switchTab('destinations')">
+                <i class="fas fa-map-marker-alt mr-2"></i>Destinations
+            </button>
+            <button class="tab-btn" onclick="switchTab('budget')">
+                <i class="fas fa-wallet mr-2"></i>Budget
+            </button>
+            <button class="tab-btn" onclick="switchTab('accommodation')">
+                <i class="fas fa-bed mr-2"></i>Sleep
+            </button>
+            <button class="tab-btn" onclick="switchTab('dining')">
+                <i class="fas fa-utensils mr-2"></i>Eat
+            </button>
+        </div>
+
+        <!-- DESTINATIONS TAB -->
+        <section id="destinations" class="tab-content active space-y-6">
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Kutai Barat Destinations</h2>
+                <p class="text-gray-600 text-sm">Discover the hidden gems of East Kalimantan</p>
+            </div>
+
+            <!-- Destination 1: Kerayan Highlands -->
+            <div class="destination-card bg-white rounded-3xl p-5 shadow-sm hover:shadow-md">
+                <div
+                    class="w-full h-40 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 mb-4 flex items-center justify-center">
+                    <i class="fas fa-mountain text-white text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Kerayan Highlands</h3>
+                <p class="text-gray-600 text-sm mb-3">Experience pristine mountain landscapes and traditional Dayak
+                    culture in this remote upland region.</p>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-gray-500"><i class="fas fa-location-dot mr-1"></i>Elevation:
+                        600-1000m</span>
+                    <span class="text-xs text-yellow-500"><i class="fas fa-star mr-1"></i>4.8/5</span>
+                </div>
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <span class="amenity-badge bg-blue-100 text-blue-800"><i
+                            class="fas fa-hiking mr-1"></i>Trekking</span>
+                    <span class="amenity-badge bg-green-100 text-green-800"><i
+                            class="fas fa-leaf mr-1"></i>Nature</span>
+                    <span class="amenity-badge bg-purple-100 text-purple-800"><i
+                            class="fas fa-users mr-1"></i>Culture</span>
+                </div>
+                <button
+                    class="w-full py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl font-semibold hover:shadow-lg transition">
+                    View Details
+                </button>
+            </div>
+
+            <!-- Destination 2: Long Bagun -->
+            <div class="destination-card bg-white rounded-3xl p-5 shadow-sm hover:shadow-md">
+                <div
+                    class="w-full h-40 rounded-2xl bg-gradient-to-br from-blue-400 to-cyan-500 mb-4 flex items-center justify-center">
+                    <i class="fas fa-water text-white text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Long Bagun</h3>
+                <p class="text-gray-600 text-sm mb-3">Traditional Dayak settlement on the Mahakam River with authentic
+                    cultural experiences and river activities.</p>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-gray-500"><i class="fas fa-location-dot mr-1"></i>Mahakam River</span>
+                    <span class="text-xs text-yellow-500"><i class="fas fa-star mr-1"></i>4.6/5</span>
+                </div>
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <span class="amenity-badge bg-blue-100 text-blue-800"><i class="fas fa-boat mr-1"></i>River
+                        Tours</span>
+                    <span class="amenity-badge bg-orange-100 text-orange-800"><i
+                            class="fas fa-campfire mr-1"></i>Camping</span>
+                    <span class="amenity-badge bg-red-100 text-red-800"><i class="fas fa-utensils mr-1"></i>Local
+                        Food</span>
+                </div>
+                <button
+                    class="w-full py-2 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-xl font-semibold hover:shadow-lg transition">
+                    View Details
+                </button>
+            </div>
+
+            <!-- Destination 3: Wahau Protected Area -->
+            <div class="destination-card bg-white rounded-3xl p-5 shadow-sm hover:shadow-md">
+                <div
+                    class="w-full h-40 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 mb-4 flex items-center justify-center">
+                    <i class="fas fa-tree text-white text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Wahau Protected Area</h3>
+                <p class="text-gray-600 text-sm mb-3">Pristine rainforest reserve home to rare wildlife including
+                    orangutans and unique bird species.</p>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-gray-500"><i class="fas fa-location-dot mr-1"></i>UNESCO Site</span>
+                    <span class="text-xs text-yellow-500"><i class="fas fa-star mr-1"></i>4.9/5</span>
+                </div>
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <span class="amenity-badge bg-green-100 text-green-800"><i
+                            class="fas fa-binoculars mr-1"></i>Wildlife</span>
+                    <span class="amenity-badge bg-amber-100 text-amber-800"><i
+                            class="fas fa-camera mr-1"></i>Photography</span>
+                    <span class="amenity-badge bg-lime-100 text-lime-800"><i
+                            class="fas fa-leaf mr-1"></i>Eco-Tourism</span>
+                </div>
+                <button
+                    class="w-full py-2 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl font-semibold hover:shadow-lg transition">
+                    View Details
+                </button>
+            </div>
+
+            <!-- Destination 4: Apokayan Plateau -->
+            <div class="destination-card bg-white rounded-3xl p-5 shadow-sm hover:shadow-md">
+                <div
+                    class="w-full h-40 rounded-2xl bg-gradient-to-br from-indigo-400 to-violet-600 mb-4 flex items-center justify-center">
+                    <i class="fas fa-compass text-white text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Apokayan Plateau</h3>
+                <p class="text-gray-600 text-sm mb-3">Remote highland area with breathtaking vistas, traditional
+                    villages, and adventure opportunities.</p>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-gray-500"><i class="fas fa-location-dot mr-1"></i>Remote Region</span>
+                    <span class="text-xs text-yellow-500"><i class="fas fa-star mr-1"></i>4.7/5</span>
+                </div>
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <span class="amenity-badge bg-indigo-100 text-indigo-800"><i
+                            class="fas fa-dumbbell mr-1"></i>Adventure</span>
+                    <span class="amenity-badge bg-violet-100 text-violet-800"><i
+                            class="fas fa-heart mr-1"></i>Experience</span>
+                    <span class="amenity-badge bg-purple-100 text-purple-800"><i
+                            class="fas fa-map mr-1"></i>Exploration</span>
+                </div>
+                <button
+                    class="w-full py-2 bg-gradient-to-r from-indigo-500 to-violet-500 text-white rounded-xl font-semibold hover:shadow-lg transition">
+                    View Details
+                </button>
+            </div>
+
+            <!-- Destination 5: Mahakam River -->
+            <div class="destination-card bg-white rounded-3xl p-5 shadow-sm hover:shadow-md">
+                <div
+                    class="w-full h-40 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 mb-4 flex items-center justify-center">
+                    <i class="fas fa-wave text-white text-4xl"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Mahakam River Journey</h3>
+                <p class="text-gray-600 text-sm mb-3">Epic river cruise through pristine wilderness, passing multiple
+                    Dayak communities and scenic landscapes.</p>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs text-gray-500"><i class="fas fa-location-dot mr-1"></i>Length: 920 km</span>
+                    <span class="text-xs text-yellow-500"><i class="fas fa-star mr-1"></i>4.8/5</span>
+                </div>
+                <div class="flex flex-wrap gap-2 mb-3">
+                    <span class="amenity-badge bg-cyan-100 text-cyan-800"><i
+                            class="fas fa-sailboat mr-1"></i>Cruise</span>
+                    <span class="amenity-badge bg-sky-100 text-sky-800"><i
+                            class="fas fa-map-location-dot mr-1"></i>Scenic</span>
+                    <span class="amenity-badge bg-blue-100 text-blue-800"><i class="fas fa-fish mr-1"></i>Fishing</span>
+                </div>
+                <button
+                    class="w-full py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-semibold hover:shadow-lg transition">
+                    View Details
+                </button>
+            </div>
+
+        </section>
+
+        <!-- BUDGET TAB -->
+        <section id="budget" class="tab-content space-y-6">
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Budget Planning</h2>
+                <p class="text-gray-600 text-sm">Estimated costs for your Kutai Barat adventure</p>
+            </div>
+
+            <!-- Duration Selection -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm">
+                <label class="text-sm font-semibold text-gray-700 mb-3 block">Trip Duration</label>
+                <div class="grid grid-cols-4 gap-2">
+                    <button
+                        class="duration-btn py-2 px-3 rounded-lg border-2 border-gray-200 hover:border-purple-500 font-semibold text-sm transition"
+                        onclick="calculateBudget(3)">
+                        3 Days
+                    </button>
+                    <button
+                        class="duration-btn py-2 px-3 rounded-lg border-2 border-purple-500 bg-purple-50 font-semibold text-sm text-purple-600">
+                        5 Days
+                    </button>
+                    <button
+                        class="duration-btn py-2 px-3 rounded-lg border-2 border-gray-200 hover:border-purple-500 font-semibold text-sm transition"
+                        onclick="calculateBudget(7)">
+                        7 Days
+                    </button>
+                    <button
+                        class="duration-btn py-2 px-3 rounded-lg border-2 border-gray-200 hover:border-purple-500 font-semibold text-sm transition"
+                        onclick="calculateBudget(10)">
+                        10+ Days
+                    </button>
+                </div>
+            </div>
+
+            <!-- Budget Breakdown (5 Days) -->
+            <div class="space-y-4">
+                <!-- Flight -->
+                <div class="bg-white rounded-2xl p-4 shadow-sm border-l-4 border-blue-500">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-plane text-blue-500 mt-1"></i>
+                            <div>
+                                <h3 class="font-bold text-gray-900">Flight (Round Trip)</h3>
+                                <p class="text-xs text-gray-600">Jakarta - Balikpapan - Kutai Barat</p>
+                            </div>
+                        </div>
+                        <span class="font-bold text-lg text-blue-600">$120</span>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-2 text-xs text-gray-700">
+                        <strong>IDR 1,800,000 - 2,400,000</strong> per person average
+                    </div>
+                </div>
+
+                <!-- Accommodation -->
+                <div class="bg-white rounded-2xl p-4 shadow-sm border-l-4 border-green-500">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-hotel text-green-500 mt-1"></i>
+                            <div>
+                                <h3 class="font-bold text-gray-900">Accommodation (5 nights)</h3>
+                                <p class="text-xs text-gray-600">Budget to mid-range stays</p>
+                            </div>
+                        </div>
+                        <span class="font-bold text-lg text-green-600">$75</span>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-2 text-xs text-gray-700">
+                        <strong>IDR 1,125,000 - 1,500,000</strong> (avg IDR 225k/night)
+                    </div>
+                </div>
+
+                <!-- Meals -->
+                <div class="bg-white rounded-2xl p-4 shadow-sm border-l-4 border-orange-500">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-utensils text-orange-500 mt-1"></i>
+                            <div>
+                                <h3 class="font-bold text-gray-900">Food & Dining (5 days)</h3>
+                                <p class="text-xs text-gray-600">3 meals per day + snacks</p>
+                            </div>
+                        </div>
+                        <span class="font-bold text-lg text-orange-600">$50</span>
+                    </div>
+                    <div class="bg-orange-50 rounded-lg p-2 text-xs text-gray-700">
+                        <strong>IDR 750,000 - 1,000,000</strong> (avg IDR 30-40k per meal)
+                    </div>
+                </div>
+
+                <!-- Activities -->
+                <div class="bg-white rounded-2xl p-4 shadow-sm border-l-4 border-purple-500">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-ticket text-purple-500 mt-1"></i>
+                            <div>
+                                <h3 class="font-bold text-gray-900">Tour & Activities</h3>
+                                <p class="text-xs text-gray-600">3-4 guided tours</p>
+                            </div>
+                        </div>
+                        <span class="font-bold text-lg text-purple-600">$100</span>
+                    </div>
+                    <div class="bg-purple-50 rounded-lg p-2 text-xs text-gray-700">
+                        <strong>IDR 1,500,000</strong> (approx per group)
+                    </div>
+                </div>
+
+                <!-- Transportation -->
+                <div class="bg-white rounded-2xl p-4 shadow-sm border-l-4 border-red-500">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-car text-red-500 mt-1"></i>
+                            <div>
+                                <h3 class="font-bold text-gray-900">Local Transport</h3>
+                                <p class="text-xs text-gray-600">Transfers, boats, hikes</p>
+                            </div>
+                        </div>
+                        <span class="font-bold text-lg text-red-600">$30</span>
+                    </div>
+                    <div class="bg-red-50 rounded-lg p-2 text-xs text-gray-700">
+                        <strong>IDR 450,000</strong> (estimated)
+                    </div>
+                </div>
+
+                <!-- Total Budget -->
+                <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-5 shadow-lg text-white mt-6">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-lg font-semibold">Total Budget (5 Days)</span>
+                        <i class="fas fa-calculator text-2xl opacity-50"></i>
+                    </div>
+                    <div class="text-4xl font-black mb-3">$375</div>
+                    <div class="text-sm mb-3"><strong>IDR 5,625,000</strong> (approx per person)</div>
+                    <div class="bg-white/20 rounded-lg p-3 text-sm">
+                        ✓ Flights included | ✓ Meals 3x daily | ✓ Mid-range accommodation | ✓ 3-4 Activities
+                    </div>
+                </div>
+
+                <!-- Budget Tips -->
+                <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+                    <h4 class="font-bold text-blue-900 mb-2"><i class="fas fa-lightbulb mr-2"></i>Money-Saving Tips</h4>
+                    <ul class="text-sm text-blue-800 space-y-2">
+                        <li><i class="fas fa-check text-green-600 mr-2"></i>Travel during shoulder season (Apr-May,
+                            Sept-Oct)</li>
+                        <li><i class="fas fa-check text-green-600 mr-2"></i>Book tours with other travelers to share
+                            costs</li>
+                        <li><i class="fas fa-check text-green-600 mr-2"></i>Eat at local warungs (small restaurants)
+                        </li>
+                        <li><i class="fas fa-check text-green-600 mr-2"></i>Stay in homestays for authentic experiences
+                        </li>
+                        <li><i class="fas fa-check text-green-600 mr-2"></i>Use public transport and speedboats</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACCOMMODATION TAB -->
+        <section id="accommodation" class="tab-content space-y-6">
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Where to Sleep</h2>
+                <p class="text-gray-600 text-sm">Accommodation options throughout Kutai Barat</p>
+            </div>
+
+            <!-- Accommodation Filter -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm">
+                <label class="text-sm font-semibold text-gray-700 mb-3 block">Filter by Type</label>
+                <div class="flex flex-wrap gap-2">
+                    <button
+                        class="px-4 py-2 rounded-full border-2 border-purple-500 bg-purple-50 text-purple-600 font-semibold text-sm">All</button>
+                    <button
+                        class="px-4 py-2 rounded-full border-2 border-gray-200 hover:border-purple-500 text-gray-600 font-semibold text-sm transition">Hotels</button>
+                    <button
+                        class="px-4 py-2 rounded-full border-2 border-gray-200 hover:border-purple-500 text-gray-600 font-semibold text-sm transition">Homestay</button>
+                    <button
+                        class="px-4 py-2 rounded-full border-2 border-gray-200 hover:border-purple-500 text-gray-600 font-semibold text-sm transition">Lodges</button>
+                </div>
+            </div>
+
+            <!-- Accommodation 1: Budget Hotel -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-32 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                    <i class="fas fa-building text-white text-3xl"></i>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-900">Kutai Barat Budget Hotel</h3>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">Budget</span>
+                    </div>
+                    <div class="flex items-center mb-2 text-yellow-500 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="text-gray-600 ml-2">3.5/5 (140 reviews)</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Basic but clean rooms with essential facilities in town
+                        center.</p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-wifi mr-1"></i>WiFi</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-fan mr-1"></i>A/C</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-utensils mr-1"></i>Restaurant</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-blue-600">$15</span>
+                        <button
+                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition font-semibold text-sm">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accommodation 2: Mid-Range Hotel -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-32 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+                    <i class="fas fa-hotel text-white text-3xl"></i>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-900">Ecopark Resort</h3>
+                        <span
+                            class="bg-green-100 text-green-800 text-xs font-bold px-3 py-1 rounded-full">Mid-Range</span>
+                    </div>
+                    <div class="flex items-center mb-2 text-yellow-500 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="text-gray-600 ml-2">4.2/5 (340 reviews)</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Comfortable rooms with nature views, jungle setting near
+                        Mahakam River.</p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-wifi mr-1"></i>WiFi</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-pool mr-1"></i>Pool</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-utensils mr-1"></i>Restaurant</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-person-hiking mr-1"></i>Tours</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-green-600">$40</span>
+                        <button
+                            class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition font-semibold text-sm">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accommodation 3: Homestay -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-32 bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
+                    <i class="fas fa-house text-white text-3xl"></i>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-900">Dayak Family Homestay</h3>
+                        <span
+                            class="bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-full">Authentic</span>
+                    </div>
+                    <div class="flex items-center mb-2 text-yellow-500 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="text-gray-600 ml-2">4.9/5 (230 reviews)</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Authentic experience in traditional Dayak home with
+                        home-cooked meals and local culture.</p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-users mr-1"></i>Family-run</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-utensils mr-1"></i>Meals included</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-handshake mr-1"></i>Cultural activities</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-orange-600">$20</span>
+                        <button
+                            class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition font-semibold text-sm">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accommodation 4: Luxury Lodge -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-32 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+                    <i class="fas fa-crown text-white text-3xl"></i>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-900">Mahakam River Lodge</h3>
+                        <span
+                            class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full">Luxury</span>
+                    </div>
+                    <div class="flex items-center mb-2 text-yellow-500 text-sm">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="text-gray-600 ml-2">4.9/5 (89 reviews)</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Premium riverside lodge with modern amenities, private guides,
+                        and exclusive jungle experiences.</p>
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-spa mr-1"></i>Spa</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-utensils mr-1"></i>Fine dining</span>
+                        <span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded"><i
+                                class="fas fa-person-hiking mr-1"></i>Private tours</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-2xl font-bold text-purple-600">$150</span>
+                        <button
+                            class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition font-semibold text-sm">
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Accommodation Tips -->
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4">
+                <h4 class="font-bold text-amber-900 mb-2"><i class="fas fa-info-circle mr-2"></i>Accommodation Tips</h4>
+                <ul class="text-sm text-amber-800 space-y-2">
+                    <li><i class="fas fa-check text-green-600 mr-2"></i>Book homestays for cultural immersion and local
+                        food</li>
+                    <li><i class="fas fa-check text-green-600 mr-2"></i>Remote areas may have limited electricity/WiFi
+                    </li>
+                    <li><i class="fas fa-check text-green-600 mr-2"></i>Advance booking recommended during peak season
+                    </li>
+                    <li><i class="fas fa-check text-green-600 mr-2"></i>Bring insect repellent for jungle accommodations
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- DINING TAB -->
+        <section id="dining" class="tab-content space-y-6">
+            <div class="mb-4">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Where to Eat</h2>
+                <p class="text-gray-600 text-sm">Food experiences and restaurants in Kutai Barat</p>
+            </div>
+
+            <!-- Food Category Filter -->
+            <div class="bg-white rounded-2xl p-4 shadow-sm">
+                <label class="text-sm font-semibold text-gray-700 mb-3 block">Food Type</label>
+                <div class="flex flex-wrap gap-2">
+                    <button
+                        class="px-4 py-2 rounded-full border-2 border-purple-500 bg-purple-50 text-purple-600 font-semibold text-sm">All</button>
+                    <button
+                        class="px-4 py-2 rounded-full border-2 border-gray-200 hover:border-purple-500 text-gray-600 font-semibold text-sm transition">Local</button>
+                    <button
+                        class="px-4 py-2 rounded-full border-2 border-gray-200 hover:border-purple-500 text-gray-600 font-semibold text-sm transition">International</button>
+                    <button
+                        class="px-4 py-2 rounded-full border-2 border-gray-200 hover:border-purple-500 text-gray-600 font-semibold text-sm transition">Seafood</button>
+                </div>
+            </div>
+
+            <!-- Restaurant 1: Warung Makan -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-32 bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+                    <i class="fas fa-bowl-food text-white text-3xl"></i>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-900">Warung Makan Tradisional</h3>
+                        <span class="bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full">Budget</span>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-yellow-500 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 ml-2 text-sm">4.4/5</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Authentic local cuisine. Try Nasi Kuning (turmeric rice) and
+                        Ikan Asap (smoked fish).</p>
+                    <div class="mb-3 space-y-1 text-sm">
+                        <p class="text-gray-700"><strong>Popular Dishes:</strong></p>
+                        <p class="text-gray-600">• Perkedel Goreng - IDR 5k | • Lumpia - IDR 3k | • Kare Ayam - IDR 25k
+                        </p>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm">
+                            <span class="text-gray-600">Average meal:</span>
+                            <span class="font-bold text-red-600">$2-4</span>
+                        </div>
+                        <button
+                            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition font-semibold text-sm">
+                            More Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurant 2: Seafood Restaurant -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-32 bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center">
+                    <i class="fas fa-fish text-white text-3xl"></i>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-900">Mahakam Seafood Restaurant</h3>
+                        <span
+                            class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">Mid-Range</span>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-yellow-500 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 ml-2 text-sm">4.7/5</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Fresh river and local seafood. Fantastic grilled fish and
+                        river prawn specialties.</p>
+                    <div class="mb-3 space-y-1 text-sm">
+                        <p class="text-gray-700"><strong>Specialties:</strong></p>
+                        <p class="text-gray-600">• Grilled Mahakam Fish - IDR 60k | • Udang Bakar - IDR 50k | • Soto
+                            Kuning - IDR 30k</p>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm">
+                            <span class="text-gray-600">Average meal:</span>
+                            <span class="font-bold text-blue-600">$5-10</span>
+                        </div>
+                        <button
+                            class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition font-semibold text-sm">
+                            More Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurant 3: Local Dining -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-32 bg-gradient-to-br from-orange-400 to-yellow-500 flex items-center justify-center">
+                    <i class="fas fa-drumstick-bite text-white text-3xl"></i>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-900">Rumah Makan Dayak</h3>
+                        <span
+                            class="bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-full">Authentic</span>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-yellow-500 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 ml-2 text-sm">4.8/5</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Traditional Dayak cuisine featuring wild game, cassava, and
+                        jungle ingredients.</p>
+                    <div class="mb-3 space-y-1 text-sm">
+                        <p class="text-gray-700"><strong>Must Try:</strong></p>
+                        <p class="text-gray-600">• Lempah Kuning - IDR 45k | • Tinutuan - IDR 15k | • Ulat Sagu Bakar -
+                            IDR 30k</p>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm">
+                            <span class="text-gray-600">Average meal:</span>
+                            <span class="font-bold text-orange-600">$4-7</span>
+                        </div>
+                        <button
+                            class="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition font-semibold text-sm">
+                            More Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurant 4: Modern Cafe -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition">
+                <div class="h-32 bg-gradient-to-br from-pink-400 to-purple-500 flex items-center justify-center">
+                    <i class="fas fa-mug-hot text-white text-3xl"></i>
+                </div>
+                <div class="p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-gray-900">Kutai Barat Cafe</h3>
+                        <span
+                            class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full">Modern</span>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="flex text-yellow-500 text-sm">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600 ml-2 text-sm">4.3/5</span>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-3">Modern cafe with Indonesian and international fusion dishes.
+                        Great coffee and wifi.</p>
+                    <div class="mb-3 space-y-1 text-sm">
+                        <p class="text-gray-700"><strong>Recommendations:</strong></p>
+                        <p class="text-gray-600">• Avocado Toast - IDR 35k | • Specialty Coffee - IDR 25k | • Nasi
+                            Goreng - IDR 40k</p>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <div class="text-sm">
+                            <span class="text-gray-600">Average meal:</span>
+                            <span class="font-bold text-purple-600">$8-12</span>
+                        </div>
+                        <button
+                            class="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition font-semibold text-sm">
+                            More Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Local Food Guide -->
+            <div class="bg-green-50 border border-green-200 rounded-2xl p-4">
+                <h4 class="font-bold text-green-900 mb-3"><i class="fas fa-leaf mr-2"></i>Traditional Dishes to Try</h4>
+                <div class="space-y-3 text-sm text-green-800">
+                    <div class="border-l-4 border-green-500 pl-3">
+                        <strong>Nasi Kuning</strong>
+                        <p class="text-green-700">Turmeric-flavored rice, staple dish of the region</p>
+                    </div>
+                    <div class="border-l-4 border-green-500 pl-3">
+                        <strong>Ikan Asap</strong>
+                        <p class="text-green-700">Smoked fish from Mahakam River, delicious when grilled</p>
+                    </div>
+                    <div class="border-l-4 border-green-500 pl-3">
+                        <strong>Lempah Kuning</strong>
+                        <p class="text-green-700">Yellow turmeric-based soup with meat or seafood</p>
+                    </div>
+                    <div class="border-l-4 border-green-500 pl-3">
+                        <strong>Ulat Sagu</strong>
+                        <p class="text-green-700">Sago grubs - a protein-rich jungle delicacy</p>
+                    </div>
+                    <div class="border-l-4 border-green-500 pl-3">
+                        <strong>Tinutuan</strong>
+                        <p class="text-green-700">Rice porridge, comfort food for any time</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dining Tips -->
+            <div class="bg-yellow-50 border border-yellow-200 rounded-2xl p-4">
+                <h4 class="font-bold text-yellow-900 mb-2"><i class="fas fa-utensils mr-2"></i>Dining Tips</h4>
+                <ul class="text-sm text-yellow-800 space-y-2">
+                    <li><i class="fas fa-check text-green-600 mr-2"></i>Eat at warungs (local eateries) for authentic
+                        food and low prices</li>
+                    <li><i class="fas fa-check text-green-600 mr-2"></i>Bring hand sanitizer - not all places have
+                        extensive hygiene standards</li>
+                    <li><i class="fas fa-check text-green-600 mr-2"></i>Water: Stick to bottled or boiled water</li>
+                    <li><i class="fas fa-check text-green-600 mr-2"></i>Most restaurants don't accept cards - bring cash
+                        (IDR)</li>
+                    <li><i class="fas fa-check text-green-600 mr-2"></i>Meal times: Breakfast 6-9am, Lunch 11:30am-2pm,
+                        Dinner 6-9pm</li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 w-full max-w-lg bg-white border-t border-gray-200 px-4 py-3 flex justify-around z-40">
+        <a href="index.html"
+            class="flex flex-col items-center space-y-1 text-gray-400 hover:text-purple-600 transition">
+            <i class="fas fa-home text-xl"></i>
+            <span class="text-xs">Home</span>
+        </a>
+        <a href="explore.html" class="flex flex-col items-center space-y-1 text-purple-600">
+            <i class="fas fa-map text-xl"></i>
+            <span class="text-xs">Explore</span>
+        </a>
+        <a href="marketplace.html"
+            class="flex flex-col items-center space-y-1 text-gray-400 hover:text-purple-600 transition">
+            <i class="fas fa-store text-xl"></i>
+            <span class="text-xs">Marketplace</span>
+        </a>
+        <a href="wallet.html"
+            class="flex flex-col items-center space-y-1 text-gray-400 hover:text-purple-600 transition">
+            <i class="fas fa-wallet text-xl"></i>
+            <span class="text-xs">Wallet</span>
+        </a>
+    </nav>
+
+    <script src="assets/js/explore.js"></script>
+</body>
+
+</html>

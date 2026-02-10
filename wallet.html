@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en-ID">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet - Eunoiaverse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="assets/css/wallet.css">
+</head>
+
+<body>
+    <script>
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = "login.html";
+        }
+    </script>
+
+    <!-- Navigation -->
+    <nav class="neu-flat border-b border-neutral-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <a href="index.html" class="text-2xl font-bold text-emerald-500">Eunoiaverse</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <a href="marketplace.html" class="text-white hover:text-emerald-500">Shop</a>
+                <div class="relative">
+                    <button id="cartBtn" class="relative text-white hover:text-emerald-500">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span id="cartCount"
+                            class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+                <button id="profileBtn" class="text-white hover:text-emerald-500">
+                    <i class="fas fa-user-circle text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Breadcrumb -->
+        <div class="mb-8 text-neutral-400 text-sm">
+            <a href="index.html" class="hover:text-emerald-500">Home</a> /
+            <span class="text-emerald-500">Wallet</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Sidebar - Wallet Balance & Quick Actions -->
+            <div class="lg:col-span-1">
+                <!-- Balance Card -->
+                <div class="bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-lg p-6 text-white mb-6 shadow-lg">
+                    <div class="mb-4">
+                        <p class="text-emerald-100 text-sm mb-1">Total Balanc</p>
+                        <h2 id="balanceAmount" class="text-4xl font-bold">Rp 0</h2>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 pt-4 border-t border-emerald-500">
+                        <div>
+                            <p class="text-xs text-emerald-100 mb-1">Available</p>
+                            <p id="availableBalance" class="text-lg font-semibold">Rp 0</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-emerald-100 mb-1">Pending</p>
+                            <p id="pendingBalance" class="text-lg font-semibold">Rp 0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Action Buttons -->
+                <div class="space-y-3 mb-6">
+                    <button onclick="openPaymentModal()"
+                        class="w-full neu-button neu-flat border border-neutral-700 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-plus-circle"></i>
+                        Top Up
+                    </button>
+                    <button onclick="openTransferModal()"
+                        class="w-full neu-button neu-flat border border-neutral-700 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-exchange-alt"></i>
+                        Transfer
+                    </button>
+                    <button onclick="openReceiveModal()"
+                        class="w-full neu-button neu-flat border border-neutral-700 text-white py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2">
+                        <i class="fas fa-inbox"></i>
+                        Terima
+                    </button>
+                </div>
+
+                <!-- Wallet Stats -->
+                <div class="neu-flat border border-neutral-700 rounded-lg p-4">
+                    <h3 class="text-white font-semibold mb-4">Statistik</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-neutral-400 text-sm">Trf Masuk</span>
+                            <span id="incomingCount" class="text-emerald-500 font-semibold">0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-neutral-400 text-sm">Trf Keluar</span>
+                            <span id="outgoingCount" class="text-red-500 font-semibold">0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-neutral-400 text-sm">Total Belanja</span>
+                            <span id="totalSpending" class="text-blue-500 font-semibold">Rp 0</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-neutral-400 text-sm">Investasi</span>
+                            <span id="investmentCount" class="text-yellow-500 font-semibold">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:col-span-2">
+                <!-- Tabs -->
+                <div class="flex border-b border-neutral-700 mb-6">
+                    <button
+                        class="wallet-tab active px-4 py-3 text-white font-semibold border-b-2 border-emerald-500 hover:text-emerald-500"
+                        data-tab="history">
+                        <i class="fas fa-history mr-2"></i>Riwayat Transaksi
+                    </button>
+                    <button class="wallet-tab px-4 py-3 text-neutral-400 font-semibold hover:text-white"
+                        data-tab="investment">
+                        <i class="fas fa-chart-line mr-2"></i>Investasi
+                    </button>
+                    <button class="wallet-tab px-4 py-3 text-neutral-400 font-semibold hover:text-white"
+                        data-tab="settings">
+                        <i class="fas fa-cog mr-2"></i>Pengaturan
+                    </button>
+                </div>
+
+                <!-- History Tab -->
+                <div id="history" class="wallet-tab-content active">
+                    <!-- Filter & Sort -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <select id="transactionFilter"
+                            class="px-4 py-2 neu-flat text-white rounded-lg border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="all">Semua Transaksi</option>
+                            <option value="topup">Top Up</option>
+                            <option value="transfer">Transfer</option>
+                            <option value="purchase">Pembelian</option>
+                            <option value="receive">Terima</option>
+                        </select>
+                        <select id="statusFilter"
+                            class="px-4 py-2 neu-flat text-white rounded-lg border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option value="all">Semua Status</option>
+                            <option value="success">Sukses</option>
+                            <option value="pending">Pending</option>
+                            <option value="failed">Gagal</option>
+                        </select>
+                        <input type="month" id="dateFilter"
+                            class="px-4 py-2 neu-flat text-white rounded-lg border border-neutral-700 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <!-- Transaction List -->
+                    <div id="transactionList" class="space-y-3">
+                        <!-- Transactions will be loaded here -->
+                    </div>
+
+                    <!-- Empty State -->
+                    <div id="emptyTransactions" class="hidden text-center py-12">
+                        <i class="fas fa-inbox text-4xl text-neutral-600 mb-4"></i>
+                        <p class="text-neutral-400 text-lg">Tidak ada riwayat transaksi</p>
+                    </div>
+                </div>
+
+                <!-- Investment Tab -->
+                <div id="investment" class="wallet-tab-content hidden">
+                    <div class="mb-6 neu-flat border border-blue-700 rounded-lg p-4">
+                        <h3 class="text-white font-semibold mb-2">📈 Portfolio Investasi</h3>
+                        <p class="text-neutral-400 text-sm">Total Investasi: <span id="totalInvestment"
+                                class="text-blue-400 font-bold">Rp 0</span></p>
+                        <p class="text-neutral-400 text-sm">Total Return: <span id="totalReturn"
+                                class="text-green-400 font-bold">Rp 0</span></p>
+                    </div>
+
+                    <!-- Investment Cart/List -->
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-white font-semibold text-lg">Produk Investasi Tersedia</h3>
+                            <button onclick="toggleInvestmentCart()"
+                                class="neu-button text-white px-4 py-2 rounded-lg transition flex items-center gap-2">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span id="investCartBadge"
+                                    class="bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                            </button>
+                        </div>
+
+                        <!-- Investment Products -->
+                        <div id="investmentProducts" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <!-- Investment products will be loaded here -->
+                        </div>
+
+                        <!-- Investment Cart Sidebar -->
+                        <div id="investmentCartSidebar"
+                            class="hidden mt-6 neu-flat border border-neutral-700 rounded-lg p-4">
+                            <h3 class="text-white font-semibold mb-4">🛒 Keranjang Investasi</h3>
+                            <div id="investmentCartItems" class="space-y-3 max-h-96 overflow-y-auto mb-4">
+                                <!-- Investment cart items -->
+                            </div>
+                            <div class="border-t border-neutral-700 pt-4 mb-4">
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-neutral-400">Subtotal:</span>
+                                    <span id="investCartSubtotal" class="text-white font-semibold">Rp 0</span>
+                                </div>
+                                <div class="flex justify-between mb-4">
+                                    <span class="text-neutral-400">Fee (2%):</span>
+                                    <span id="investCartFee" class="text-white font-semibold">Rp 0</span>
+                                </div>
+                                <div class="flex justify-between text-lg font-bold mb-4">
+                                    <span class="text-white">Total:</span>
+                                    <span id="investCartTotal" class="text-emerald-500">Rp 0</span>
+                                </div>
+                            </div>
+                            <button onclick="checkoutInvestment()"
+                                class="w-full neu-button text-white font-bold py-2 rounded-lg transition">
+                                Checkout Investasi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div id="settings" class="wallet-tab-content hidden">
+                    <div class="space-y-6">
+                        <!-- Bank Accounts -->
+                        <div class="neu-flat border border-neutral-700 rounded-lg p-6">
+                            <h3 class="text-white font-semibold mb-4">Rekening Bank Terdaftar</h3>
+                            <div id="bankAccounts" class="space-y-3 mb-4">
+                                <!-- Bank accounts will be loaded here -->
+                            </div>
+                            <button onclick="openAddBankModal()"
+                                class="text-emerald-500 hover:text-emerald-400 font-semibold flex items-center gap-2">
+                                <i class="fas fa-plus"></i>
+                                Tambah Rekening Bank
+                            </button>
+                        </div>
+
+                        <!-- Linked Cards -->
+                        <div class="neu-flat border border-neutral-700 rounded-lg p-6">
+                            <h3 class="text-white font-semibold mb-4">Kartu Kredit/Debit Terdaftar</h3>
+                            <div id="linkedCards" class="space-y-3 mb-4">
+                                <!-- Cards will be loaded here -->
+                            </div>
+                            <button onclick="openAddCardModal()"
+                                class="text-emerald-500 hover:text-emerald-400 font-semibold flex items-center gap-2">
+                                <i class="fas fa-plus"></i>
+                                Tambah Kartu Kredit/Debit
+                            </button>
+                        </div>
+
+                        <!-- Security -->
+                        <div class="neu-flat border border-neutral-700 rounded-lg p-6">
+                            <h3 class="text-white font-semibold mb-4">Keamanan</h3>
+                            <div class="space-y-3">
+                                <button class="w-full text-left px-4 py-3 neu-inset rounded-lg text-white transition">
+                                    <i class="fas fa-lock mr-2"></i>Ubah PIN Wallet
+                                </button>
+                                <button class="w-full text-left px-4 py-3 neu-inset rounded-lg text-white transition">
+                                    <i class="fas fa-shield-alt mr-2"></i>Autentikasi 2 Faktor
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="neu-flat rounded-lg p-6 max-w-md w-full border border-neutral-700">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-white">Top Up Wallet</h2>
+                <button onclick="closePaymentModal()" class="text-neutral-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Amount Input -->
+                <div>
+                    <label class="text-white text-sm font-semibold mb-2 block">Jumlah Top Up</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-3 text-neutral-400">Rp</span>
+                        <input type="number" id="topupAmount" placeholder="0"
+                            class="w-full pl-10 pr-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <!-- Quick Amount Buttons -->
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="setTopupAmount(50000)"
+                        class="py-2 neu-inset text-white rounded-lg text-sm transition">50K</button>
+                    <button onclick="setTopupAmount(100000)"
+                        class="py-2 neu-inset text-white rounded-lg text-sm transition">100K</button>
+                    <button onclick="setTopupAmount(500000)"
+                        class="py-2 neu-inset text-white rounded-lg text-sm transition">500K</button>
+                </div>
+
+                <!-- Payment Method -->
+                <div>
+                    <label class="text-white text-sm font-semibold mb-2 block">Metode Pembayaran</label>
+                    <select id="paymentMethod"
+                        class="w-full px-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        <option>Bank Transfer</option>
+                        <option>Kartu Kredit/Debit</option>
+                        <option>E-Wallet</option>
+                        <option>Virtual Account</option>
+                    </select>
+                </div>
+
+                <!-- Promo Code -->
+                <div>
+                    <label class="text-white text-sm font-semibold mb-2 block">Kode Promo (Opsional)</label>
+                    <input type="text" id="promoCode" placeholder="Masukkan kode promo"
+                        class="w-full px-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <!-- Summary -->
+                <div class="neu-inset p-3 rounded-lg">
+                    <div class="flex justify-between mb-2">
+                        <span class="text-neutral-400">Jumlah:</span>
+                        <span id="topupDisplay" class="text-white font-semibold">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between mb-2">
+                        <span class="text-neutral-400">Admin Fee:</span>
+                        <span id="adminFee" class="text-white font-semibold">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between border-t border-neutral-600 pt-2">
+                        <span class="text-white font-semibold">Total Bayar:</span>
+                        <span id="totalPayment" class="text-emerald-500 font-bold">Rp 0</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="closePaymentModal()"
+                        class="py-3 neu-inset text-white rounded-lg font-semibold transition">Batal</button>
+                    <button onclick="processPayment()"
+                        class="py-3 neu-button text-white rounded-lg font-semibold transition">Top Up Sekarang</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Modal -->
+    <div id="transferModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="neu-flat rounded-lg p-6 max-w-md w-full border border-neutral-700 max-h-96 overflow-y-auto">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-white">Transfer Uang</h2>
+                <button onclick="closeTransferModal()" class="text-neutral-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Recipient Type -->
+                <div>
+                    <label class="text-white text-sm font-semibold mb-2 block">Transfer Ke</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="setTransferType('user')"
+                            class="transfer-type-btn py-2 px-3 neu-button text-white rounded-lg text-sm font-semibold">
+                            Pengguna Eunoia
+                        </button>
+                        <button onclick="setTransferType('bank')"
+                            class="transfer-type-btn py-2 px-3 neu-inset text-white rounded-lg text-sm font-semibold">
+                            Ke Bank
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recipient Input -->
+                <div id="recipientUserDiv">
+                    <label class="text-white text-sm font-semibold mb-2 block">Username Penerima</label>
+                    <input type="text" id="recipientUsername" placeholder="Cari username"
+                        class="w-full px-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <div id="userSearchResults" class="mt-2 space-y-2 hidden">
+                        <!-- Search results will appear here -->
+                    </div>
+                </div>
+
+                <div id="recipientBankDiv" class="hidden space-y-4">
+                    <!-- Bank Selection -->
+                    <div>
+                        <label class="text-white text-sm font-semibold mb-2 block">Pilih Bank</label>
+                        <select id="bankName"
+                            class="w-full px-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                            <option>-- Pilih Bank --</option>
+                            <option value="bca">BCA</option>
+                            <option value="bri">BRI</option>
+                            <option value="bni">BNI</option>
+                            <option value="mandiri">Mandiri</option>
+                            <option value="cimb">CIMB Niaga</option>
+                            <option value="permata">Bank Permata</option>
+                            <option value="maybank">Maybank</option>
+                            <option value="hsbc">HSBC</option>
+                        </select>
+                    </div>
+
+                    <!-- Account Number -->
+                    <div>
+                        <label class="text-white text-sm font-semibold mb-2 block">Nomor Rekening</label>
+                        <input type="text" id="bankAccount" placeholder="Nomor rekening penerima"
+                            class="w-full px-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+
+                    <!-- Account Holder Name -->
+                    <div>
+                        <label class="text-white text-sm font-semibold mb-2 block">Nama Pemilik Rekening</label>
+                        <input type="text" id="accountHolder" placeholder="Nama pemilik rekening"
+                            class="w-full px-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <!-- Transfer Amount -->
+                <div>
+                    <label class="text-white text-sm font-semibold mb-2 block">Jumlah Transfer</label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-3 text-neutral-400">Rp</span>
+                        <input type="number" id="transferAmount" placeholder="0"
+                            class="w-full pl-10 pr-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    </div>
+                </div>
+
+                <!-- Note -->
+                <div>
+                    <label class="text-white text-sm font-semibold mb-2 block">Catatan (Opsional)</label>
+                    <input type="text" id="transferNote" placeholder="Catatan transfer"
+                        class="w-full px-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                </div>
+
+                <!-- Fee Info -->
+                <div class="neu-inset p-3 rounded-lg">
+                    <div class="flex justify-between mb-1">
+                        <span class="text-neutral-400 text-sm">Biaya Transfer:</span>
+                        <span id="transferFee" class="text-white text-sm font-semibold">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-white font-semibold">Total:</span>
+                        <span id="transferTotal" class="text-emerald-500 font-bold">Rp 0</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="closeTransferModal()"
+                        class="py-3 neu-inset text-white rounded-lg font-semibold transition">Batal</button>
+                    <button onclick="processTransfer()"
+                        class="py-3 neu-button text-white rounded-lg font-semibold transition">Transfer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Receive Modal -->
+    <div id="receiveModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="neu-flat rounded-lg p-6 max-w-md w-full border border-neutral-700">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-2xl font-bold text-white">Terima Uang</h2>
+                <button onclick="closeReceiveModal()" class="text-neutral-400 hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <!-- QR Code -->
+                <div class="neu-inset p-6 rounded-lg flex flex-col items-center">
+                    <div id="qrCode" class="w-40 h-40 bg-white rounded-lg flex items-center justify-center">
+                        <i class="fas fa-qrcode text-4xl text-neutral-400"></i>
+                    </div>
+                    <p class="text-neutral-400 text-sm mt-3">Scan QR Code untuk menerima uang</p>
+                </div>
+
+                <!-- Wallet Address -->
+                <div>
+                    <label class="text-white text-sm font-semibold mb-2 block">ID Dompet Anda</label>
+                    <div class="relative">
+                        <input type="text" id="walletId" readonly value="EUNOIA-USER-12345"
+                            class="w-full px-4 py-3 neu-inset text-white rounded-lg">
+                        <button onclick="copyWalletId()"
+                            class="absolute right-3 top-3 text-emerald-500 hover:text-emerald-400">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pending Transfers -->
+                <div>
+                    <h3 class="text-white font-semibold mb-3">Transfer yang Menunggu Persetujuan</h3>
+                    <div id="pendingTransfers" class="space-y-2 max-h-48 overflow-y-auto">
+                        <!-- Pending transfers will be loaded here -->
+                    </div>
+                    <div id="noPendingTransfers" class="text-center py-6">
+                        <p class="text-neutral-400">Tidak ada transfer yang menunggu</p>
+                    </div>
+                </div>
+
+                <button onclick="closeReceiveModal()"
+                    class="w-full py-3 neu-button text-white rounded-lg font-semibold transition">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIN Verification Modal -->
+    <div id="pinModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center">
+        <div class="neu-flat rounded-lg p-6 max-w-md w-full border border-neutral-700">
+            <h2 class="text-2xl font-bold text-white mb-4">Verifikasi PIN</h2>
+            <p class="text-neutral-400 mb-4">Masukkan PIN wallet Anda untuk melanjutkan</p>
+            <input type="password" id="pinInput" placeholder="••••"
+                class="w-full px-4 py-3 neu-inset text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 tracking-widest text-center text-2xl mb-4"
+                maxlength="6">
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closePinModal()"
+                    class="py-3 neu-inset text-white rounded-lg font-semibold transition">Batal</button>
+                <button onclick="verifyPin()"
+                    class="py-3 neu-button text-white rounded-lg font-semibold transition">Verifikasi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/components/cart.js"></script>
+    <script src="assets/js/components/wallet.js"></script>
+    <script src="assets/js/components/payment.js"></script>
+    <script src="assets/js/components/transfer.js"></script>
+    <script src="assets/js/components/investment.js"></script>
+    <script src="assets/js/utils/data.js"></script>
+    <script src="assets/js/wallet.js"></script>
+</body>
+
+</html>
