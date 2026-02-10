@@ -1,0 +1,24 @@
+{
+    "name": "eunoiaverse",
+    "version": "1.0.0",
+    "description": "A modern marketplace platform with wallet, payments, and investment features",
+    "main": "assets/js/index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "http-server -p 8000 -c-1",
+        "build": "echo 'Build script - integrate with your bundler (Webpack, Vite, etc.)'",
+        "test": "echo 'Test script - add tests here'"
+    },
+    "keywords": [
+        "marketplace",
+        "wallet",
+        "ecommerce",
+        "investment"
+    ],
+    "author": "Eunoiaverse Team",
+    "license": "MIT",
+    "dependencies": {},
+    "devDependencies": {
+        "http-server": "^14.1.1"
+    }
+}
