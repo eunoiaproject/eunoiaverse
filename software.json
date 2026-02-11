@@ -1,0 +1,70 @@
+{   
+    "admin": {
+        "name": "eunoiverse", 
+        "lead": {
+            "name": "Edo Erpani", 
+            "role": "CEO"
+            },
+    "team": {
+        "name": "Frontend", 
+        "lead": {
+            "id": "SE001", 
+            "name": "Edo Erpani", 
+            "role": "Senior Sofware Engineer"
+                  }, 
+            "members": 
+                   [ 
+                { 
+                "id": "SE002", 
+                "name": "User2", 
+                "role": ""
+                },
+                {
+                "id": "SE003", 
+                "name": "User3", 
+                "role": "Junior Sofware Engineer" 
+                }
+                   ], 
+            "fullStack": 
+                   [
+                   "Php", "Nodejs", "Html", "AWS S3" 
+                   ]
+         }, 
+        "deploymentEnvironments": 
+         { 
+                   "list": [
+                   { 
+                      "name": "Developments", 
+                      "url": "https://eunoiaverse.com", 
+                      "isProduction": true, 
+                       "branch": "development",
+                       "lastDeployment": ""
+                     
+                   },
+                   {
+                    "name": "Staging", 
+                    "url": "", 
+                    "isProduction": true,
+                    "branch": "release/v1.2", 
+                    "lastDeployment": "", 
+                    "testUsers": 50 
+                   },
+                   {
+                    "name": "production", 
+                    "url": "", 
+                    "isProduction": true, 
+                    "branch": "main", 
+                    "rollBackversion": "1.1.5"
+                   }
+                         ]
+         },
+        "projectInfo": 
+         { 
+                "version": "1.2.0", 
+                "repository": "https://github.com/eunoiaproject/eunoiavese", 
+                "status": "Active"
+         }
+      }
+    }
+    
+    
